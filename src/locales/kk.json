@@ -1,0 +1,56 @@
+{
+    "header": {
+        "menu": "Мәзір",
+        "parking": "Тұрақ",
+        "howToGet": "Қалай жетуге болады",
+        "language": "Тіл"
+    },
+    "menu": {
+        "shops": "Дүкендер",
+        "cafesAndRestaurants": "Кафе және мейрамханалар",
+        "services": "Қызметтер",
+        "entertainment": "Ойын-сауық",
+        "newsAndPromotions": "Жаңалықтар мен акциялар",
+        "vacancies": "Бос жұмыс орындары",
+        "contacts": "Байланыс",
+        "socialNetworks": "Әлеуметтік желілерде"
+    },
+    "footer": {
+        "address": "Мекенжай: Ташкент қ., Примерная к-сі, 123",
+        "phone": "Телефон: +998 71 123-45-67",
+        "workingHours": "Жұмыс режимі: күн сайын 10:00-ден 22:00-ге дейін",
+        "allRightsReserved": "© 2025 Forum СОО. Барлық құқықтар қорғалған."
+    },
+    "stores": {
+        "title": "Дүкендер",
+        "filter": "Сүзгі",
+        "search": "Не іздеп жатырсыз?",
+        "floor": "Қабат",
+        "alphabet": "Әліпби бойынша",
+        "map": "Схема",
+        "all": "Барлығы",
+        "promotionsAndDiscounts": "Акциялар мен жеңілдіктер",
+        "loyaltyProgram": "Адалдық бағдарламасы",
+        "temporarilyClosed": "Уақытша жабық",
+        "categories": {
+            "auto": "Авто",
+            "accessories": "Аксессуарлар",
+            "appliances": "Тұрмыстық техника және электроника",
+            "childrenClothing": "Балалар киімі",
+            "other": "Басқалар",
+            "womenClothing": "Әйелдер киімі",
+            "toys": "Ойыншықтар",
+            "menClothing": "Ерлер киімі",
+            "underwear": "Іш киім",
+            "sportswear": "Спорттық киім",
+            "sportsGoods": "Спорт тауарлары",
+            "shoes": "Аяқ киім",
+            "bags": "Сөмкелер"
+        },
+        "onMap": "Картада",
+        "floor1": "1-ші қабат",
+        "floor2": "2-ші қабат",
+        "floor3": "3-ші қабат",
+        "new": "Жаңа"
+    }
+}

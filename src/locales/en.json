@@ -1,0 +1,56 @@
+{
+    "header": {
+        "menu": "Menu",
+        "parking": "Parking",
+        "howToGet": "How to get there",
+        "language": "Language"
+    },
+    "menu": {
+        "shops": "Stores",
+        "cafesAndRestaurants": "Cafes & Restaurants",
+        "services": "Services",
+        "entertainment": "Entertainment",
+        "newsAndPromotions": "News & Promotions",
+        "vacancies": "Vacancies",
+        "contacts": "Contacts",
+        "socialNetworks": "Our social networks"
+    },
+    "footer": {
+        "address": "Address: Tashkent, Example St., 123",
+        "phone": "Phone: +998 71 123-45-67",
+        "workingHours": "Working hours: daily from 10:00 to 22:00",
+        "allRightsReserved": "© 2025 Forum Shopping Mall. All rights reserved."
+    },
+    "stores": {
+        "title": "Stores",
+        "filter": "Filter",
+        "search": "What are you looking for?",
+        "floor": "Floor",
+        "alphabet": "By alphabet",
+        "map": "Map",
+        "all": "All",
+        "promotionsAndDiscounts": "Promotions and discounts",
+        "loyaltyProgram": "Loyalty program",
+        "temporarilyClosed": "Temporarily closed",
+        "categories": {
+            "auto": "Auto",
+            "accessories": "Accessories",
+            "appliances": "Appliances & Electronics",
+            "childrenClothing": "Children's clothing",
+            "other": "Other",
+            "womenClothing": "Women's clothing",
+            "toys": "Toys",
+            "menClothing": "Men's clothing",
+            "underwear": "Underwear",
+            "sportswear": "Sportswear",
+            "sportsGoods": "Sports goods",
+            "shoes": "Shoes",
+            "bags": "Bags"
+        },
+        "onMap": "On map",
+        "floor1": "1st Floor",
+        "floor2": "2nd Floor",
+        "floor3": "3rd Floor",
+        "new": "New"
+    }
+}

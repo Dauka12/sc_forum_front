@@ -1,0 +1,56 @@
+{
+    "header": {
+        "menu": "Меню",
+        "parking": "Парковка",
+        "howToGet": "Как добраться",
+        "language": "Язык"
+    },
+    "menu": {
+        "shops": "Магазины",
+        "cafesAndRestaurants": "Кафе и рестораны",
+        "services": "Услуги",
+        "entertainment": "Развлечения",
+        "newsAndPromotions": "Новости и акции",
+        "vacancies": "Вакансии",
+        "contacts": "Контакты",
+        "socialNetworks": "Мы в соц сетях"
+    },
+    "footer": {
+        "address": "Адрес: г. Ташкент, ул. Примерная, 123",
+        "phone": "Телефон: +998 71 123-45-67",
+        "workingHours": "Режим работы: ежедневно с 10:00 до 22:00",
+        "allRightsReserved": "© 2025 ТРЦ Forum. Все права защищены."
+    },
+    "stores": {
+        "title": "Магазины",
+        "filter": "Фильтр",
+        "search": "Что вы хотите найти?",
+        "floor": "Этаж",
+        "alphabet": "По алфавиту",
+        "map": "Схема",
+        "all": "Все",
+        "promotionsAndDiscounts": "Акции и скидки",
+        "loyaltyProgram": "Программа лояльности",
+        "temporarilyClosed": "Временно закрыто",
+        "categories": {
+            "auto": "Авто",
+            "accessories": "Аксессуары",
+            "appliances": "Бытовая техника и электроника",
+            "childrenClothing": "Детская одежда",
+            "other": "Другие",
+            "womenClothing": "Женская одежда",
+            "toys": "Игрушки",
+            "menClothing": "Мужская одежда",
+            "underwear": "Нижнее белье",
+            "sportswear": "Спортивная одежда",
+            "sportsGoods": "Товары для спорта",
+            "shoes": "Обувь",
+            "bags": "Сумки"
+        },
+        "onMap": "На карте",
+        "floor1": "1-й Этаж",
+        "floor2": "2-й Этаж",
+        "floor3": "3-й Этаж",
+        "new": "Новый"
+    }
+}
