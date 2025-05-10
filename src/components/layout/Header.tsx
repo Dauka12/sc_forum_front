@@ -34,17 +34,48 @@ const Header = () => {
     const { t } = useTranslation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    // Prevent layout shifts when dialog opens
+    useEffect(() => {
+        if (isMenuOpen) {
+            // Store the current scroll position and lock body scroll
+            const scrollY = window.scrollY;
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
+            document.body.style.paddingRight = `${scrollbarWidth}px`;
+        } else {
+            // Restore scroll position when dialog closes
+            const scrollY = document.body.style.top;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.paddingRight = '';
+            
+            if (scrollY) {
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            }
+        }
+        
+        return () => {
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.paddingRight = '';
+        };
+    }, [isMenuOpen]);
+
     return (
         <header className="fixed top-0 w-full bg-white/80 backdrop-blur-sm z-50 border-b">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between py-4">
-                    {/* Левая часть хедера */}
                     <div className="flex items-center w-24">
                         <Dialog open={isMenuOpen} onOpenChange={setIsMenuOpen}>
                             <DialogTrigger asChild>
-                                <Button 
-                                    variant="ghost" 
-                                    size="sm" 
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
                                     className="flex items-center gap-2 transition-all duration-300 hover:bg-primary/10"
                                 >
                                     <Menu className="h-5 w-5" />
@@ -58,7 +89,6 @@ const Header = () => {
                                     </h2>
                                     
                                     <div className="space-y-5">
-                                        <MenuItem to="/" label={t('menu.shops')} delay={1} />
                                         <MenuItem to="/stores" label={t('menu.shops')} delay={2} />
                                         <MenuItem to="/" label={t('menu.cafesAndRestaurants')} delay={3} />
                                         <MenuItem to="/" label={t('menu.services')} delay={4} />
@@ -89,10 +119,8 @@ const Header = () => {
                         </Dialog>
                     </div>
 
-                    {/* Логотип по центру */}
                     <Logo className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
 
-                    {/* Правая часть хедера */}
                     <div className="flex items-center justify-end w-24">
                         <LanguageSwitcher />
                     </div>

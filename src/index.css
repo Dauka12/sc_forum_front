@@ -64,6 +64,47 @@
   }
 }
 
+/* Dialog animations */
+.dialog-overlay-enter {
+  opacity: 0;
+}
+
+.dialog-overlay-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-out;
+}
+
+.dialog-content-enter {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.dialog-content-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: all 300ms ease-out;
+}
+
+.dialog-overlay-exit {
+  opacity: 1;
+}
+
+.dialog-overlay-exit-active {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+.dialog-content-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.dialog-content-exit-active {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: all 200ms ease-in;
+}
+
 .slide-enter {
   transform: translateX(100%);
 }
