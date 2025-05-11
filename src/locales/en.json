@@ -3,7 +3,10 @@
         "menu": "Menu",
         "parking": "Parking",
         "howToGet": "How to get there",
-        "language": "Language"
+        "language": "Language",
+        "map": "Map",
+        "search": "Search",
+        "quickNav": "Navigation"
     },
     "menu": {
         "shops": "Stores",

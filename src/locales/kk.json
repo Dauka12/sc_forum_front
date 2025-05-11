@@ -3,7 +3,10 @@
         "menu": "Мәзір",
         "parking": "Тұрақ",
         "howToGet": "Қалай жетуге болады",
-        "language": "Тіл"
+        "language": "Тіл",
+        "map": "Схема",
+        "search": "Іздеу",
+        "quickNav": "Навигация"
     },
     "menu": {
         "shops": "Дүкендер",

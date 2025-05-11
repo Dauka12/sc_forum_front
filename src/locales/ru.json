@@ -3,7 +3,10 @@
         "menu": "Меню",
         "parking": "Парковка",
         "howToGet": "Как добраться",
-        "language": "Язык"
+        "language": "Язык",
+        "map": "Схема",
+        "search": "Поиск",
+        "quickNav": "Навигация"
     },
     "menu": {
         "shops": "Магазины",

@@ -21,31 +21,35 @@ const LanguageSwitcher = () => {
         <div className="relative">
             <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
                 <DropdownMenuTrigger asChild>
-                    <Button 
-                        variant="ghost" 
-                        className="w-12 h-8 px-0 flex items-center justify-center"
+                    <Button
+                        variant="black"
+                        size="sm"
+                        className="font-semibold"
                     >
-                        <span className="inline-block min-w-[20px] text-center">
-                            {i18n.language === 'ru' && 'RU'}
-                            {i18n.language === 'en' && 'EN'}
-                            {i18n.language === 'kk' && 'KK'}
+                        <span>
+                            {i18n.language === 'ru' ? 'RUS' :
+                                i18n.language === 'en' ? 'ENG' :
+                                    i18n.language === 'kk' ? 'KAZ' : 'RUS'}
                         </span>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                    align="end" 
+                <DropdownMenuContent
+                    align="end"
                     className="animate-in slide-in-from-top-1"
                     sideOffset={8}
                     avoidCollisions={false}
                     forceMount
                 >
-                    <DropdownMenuItem onClick={() => changeLanguage('en')}>
+                    <DropdownMenuItem onClick={() => changeLanguage('en')}
+                        className="cursor-pointer hover:bg-accent transition-colors">
                         English
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => changeLanguage('ru')}>
+                    <DropdownMenuItem onClick={() => changeLanguage('ru')}
+                        className="cursor-pointer hover:bg-accent transition-colors">
                         Русский
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => changeLanguage('kk')}>
+                    <DropdownMenuItem onClick={() => changeLanguage('kk')}
+                        className="cursor-pointer hover:bg-accent transition-colors">
                         Қазақша
                     </DropdownMenuItem>
                 </DropdownMenuContent>

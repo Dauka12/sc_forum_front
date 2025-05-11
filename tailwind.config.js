@@ -83,6 +83,22 @@ module.exports = {
                 scaleIn: {
                     '0%': { transform: 'scale(0.95)', opacity: 0 },
                     '100%': { transform: 'scale(1)', opacity: 1 },
+                },
+                'slide-in-from-top': {
+                    '0%': { transform: 'translateY(-10px)', opacity: 0 },
+                    '100%': { transform: 'translateY(0)', opacity: 1 },
+                },
+                'spin-slow': {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(360deg)' },
+                },
+                'float': {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-5px)' },
+                },
+                'pulse-border': {
+                    '0%, 100%': { borderColor: 'rgba(0,0,0,0.2)' },
+                    '50%': { borderColor: 'rgba(0,0,0,0.8)' },
                 }
             },
             animation: {
@@ -93,6 +109,10 @@ module.exports = {
                 "slideIn": "slideIn 0.4s ease-in-out forwards",
                 "slideInLeft": "slideInLeft 0.4s ease-in-out forwards",
                 "scaleIn": "scaleIn 0.3s ease-in-out forwards",
+                'slide-in-from-top-1': 'slide-in-from-top 0.3s ease-out',
+                'spin-slow': 'spin-slow 12s linear infinite',
+                'float': 'float 3s ease-in-out infinite',
+                'pulse-border': 'pulse-border 2s ease-in-out infinite',
             },
             transitionProperty: {
                 'height': 'height',
