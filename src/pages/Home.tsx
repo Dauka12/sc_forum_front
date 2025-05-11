@@ -26,7 +26,6 @@ const backgroundImages = [
 const Home = () => {
     const { t } = useTranslation();
     const [currentImage, setCurrentImage] = useState(0);
-    const mainRef = useRef<HTMLDivElement>(null);
     const storesRef = useRef<HTMLDivElement>(null);
     const promotionsRef = useRef<HTMLDivElement>(null);
     const servicesRef = useRef<HTMLDivElement>(null);
