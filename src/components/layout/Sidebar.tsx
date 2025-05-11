@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { DrawerContent, SidebarDrawer } from '@/components/ui/drawer/vaul-sidebar';
-import { MapPin, Menu, ParkingSquare, Search } from 'lucide-react';
-import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Facebook, Globe, Instagram, MapPin, Menu, ParkingSquare, Search, Send } from 'lucide-react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -66,67 +67,150 @@ const NavButton = ({ icon, label, onClick, delay = 0 }: { icon: React.ReactNode,
     );
 };
 
-const LanguageButton = ({ label, active, onClick, flag }: {
-    lang: string,
-    label: string,
-    active: boolean,
-    onClick: () => void,
-    flag: string
-}) => {
+const LanguageSwitcherSidebar = () => {
+    const { i18n } = useTranslation();
+    const [isTransitioning, setIsTransitioning] = useState(false);
+
+    const changeLanguage = (lng: string) => {
+        if (lng === i18n.language || isTransitioning) return;
+
+        setIsTransitioning(true);
+        setTimeout(() => {
+            i18n.changeLanguage(lng);
+            setIsTransitioning(false);
+        }, 500);
+    };
+
+    // Calculate the position for the active indicator
+    const getIndicatorPosition = () => {
+        switch (i18n.language) {
+            case 'en': return '0%';
+            case 'ru': return '33.33%';
+            case 'kk': return '66.66%';
+            default: return '33.33%';
+        }
+    };
+
+    // Calculate text color based on current language
+    const getTextColor = (lang: string) => {
+        return i18n.language === lang ? 'text-white font-medium' : 'text-gray-400';
+    };
+
     return (
-        <button
-            onClick={onClick}
-            className={`flex items-center justify-center gap-2 px-4 py-2 rounded-full transition-all ${
-                active
-                    ? 'bg-white text-black font-medium'
-                    : 'bg-white/10 text-white hover:bg-white/20'
-            }`}
-        >
-            <span className="text-lg">{flag}</span>
-            <span>{label}</span>
-        </button>
+        <div className="relative w-full">
+            <div className="relative h-14 bg-gray-800/80 rounded-full flex items-center py-2 px-2 overflow-hidden shadow-inner">
+                {/* Moving indicator background */}
+                <motion.div
+                    className="absolute top-2 bottom-2 w-[32%] bg-gradient-to-r from-blue-700 to-blue-600 rounded-full z-0"
+                    initial={false}
+                    animate={{
+                        left: getIndicatorPosition(),
+                    }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30
+                    }}
+                >
+                    {/* The liquid drop effect */}
+                    <AnimatePresence>
+                        {isTransitioning && (
+                            <motion.div
+                                className="absolute -inset-1 bg-blue-700 rounded-full"
+                                initial={{ scale: 0.5 }}
+                                animate={{ scale: 1.2 }}
+                                exit={{ scale: 1 }}
+                                transition={{ duration: 0.3 }}
+                            />
+                        )}
+                    </AnimatePresence>
+                </motion.div>
+
+                {/* Language buttons */}
+                <motion.button
+                    onClick={() => changeLanguage('en')}
+                    className={`relative z-10 flex-1 px-3 py-2 text-center ${getTextColor('en')} hover:text-white transition-colors text-base`}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    US
+                </motion.button>
+
+                <motion.button
+                    onClick={() => changeLanguage('ru')}
+                    className={`relative z-10 flex-1 px-3 py-2 text-center ${getTextColor('ru')} hover:text-white transition-colors text-base`}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    RU
+                </motion.button>
+
+                <motion.button
+                    onClick={() => changeLanguage('kk')}
+                    className={`relative z-10 flex-1 px-3 py-2 text-center ${getTextColor('kk')} hover:text-white transition-colors text-base`}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    KZ
+                </motion.button>
+            </div>
+        </div>
     );
 };
 
 const MenuSidebar = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = React.useState(false);
+    // Store the scroll position in a ref so it persists between renders
+    const scrollPositionRef = React.useRef(0);
 
     // Effect to handle body scroll locking
     React.useEffect(() => {
         if (isOpen) {
             // Store the current scroll position and lock body scroll
-            const scrollY = window.scrollY;
+            scrollPositionRef.current = window.scrollY;
+            
+            // Calculate scrollbar width by comparing window inner width and document.documentElement.clientWidth
             const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
+            
+            // Save the current padding
+            const currentPaddingRight = parseInt(getComputedStyle(document.body).paddingRight, 10) || 0;
+            
+            // Apply styles to lock scroll but maintain page width
             document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollY}px`;
+            document.body.style.top = `-${scrollPositionRef.current}px`;
+            document.body.style.left = '0';
+            document.body.style.right = '0';
             document.body.style.width = '100%';
-            document.body.style.paddingRight = `${scrollbarWidth}px`;
+            document.body.style.paddingRight = `${currentPaddingRight + scrollbarWidth}px`;
+            document.body.style.overflow = 'hidden';
         } else {
-            // Restore scroll position when drawer closes
-            const scrollY = document.body.style.top;
+            // Reset all styles
             document.body.style.position = '';
             document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
             document.body.style.width = '';
             document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
 
-            if (scrollY) {
-                window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            // Restore scroll position when drawer closes
+            if (scrollPositionRef.current > 0) {
+                window.scrollTo({
+                    top: scrollPositionRef.current,
+                    behavior: 'instant' // This ensures immediate restoration without animation
+                });
             }
         }
 
         return () => {
+            // Cleanup function - make sure to reset all styles
             document.body.style.position = '';
             document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
             document.body.style.width = '';
             document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
         };
     }, [isOpen]);
-
-    const changeLanguage = (lng: string) => {
-        i18n.changeLanguage(lng);
-    };
 
     const menuItems: MenuItem[] = [
         { to: "/stores", label: t('menu.shops'), delay: 2 },
@@ -158,91 +242,80 @@ const MenuSidebar = () => {
         >
             <DrawerContent>
                 <div className="flex flex-col h-full text-white">
-                    <div className="px-8 py-6">
-                        <h2 className="text-2xl font-bold text-white mb-6 opacity-0 animate-fadeIn"
+                    {/* Header */}
+                    <div className="px-8 py-4 flex-shrink-0">
+                        <h2 className="text-2xl font-bold text-white opacity-0 animate-fadeIn"
                             style={{ animationDelay: '0.1s', animationFillMode: 'forwards' }}>
                             {t('header.menu')}
                         </h2>
                     </div>
 
-                    {/* Main Navigation Menu */}
-                    <div className="px-8 flex-grow">
-                        <div className="space-y-4">
+                    {/* Main Navigation Menu - Scrollable */}
+                    <div className="px-8 overflow-y-auto flex-grow custom-scrollbar">
+                        <div className="space-y-4 pb-4">
                             {menuItems.map((item, index) => (
                                 <MenuItem key={index} to={item.to} label={item.label} delay={item.delay} />
                             ))}
                         </div>
                     </div>
 
-                    {/* Quick Navigation Buttons */}
-                    <div className="px-8 pt-6 mt-4 border-t border-white/10">
-                        <h3 className="text-white/70 text-sm font-medium mb-4">
-                            {t('header.quickNav')}
-                        </h3>
-                        <div className="space-y-3">
-                            <NavButton
-                                icon={<MapPin className="h-5 w-5" />}
-                                label={t('header.map')}
-                                delay={1}
-                            />
-                            <NavButton
-                                icon={<ParkingSquare className="h-5 w-5" />}
-                                label={t('header.parking')}
-                                delay={2}
-                            />
-                            <NavButton
-                                icon={<Search className="h-5 w-5" />}
-                                label={t('header.search')}
-                                delay={3}
-                            />
+                    {/* Fixed bottom section that's always visible */}
+                    <div className="flex-shrink-0 mt-auto">
+                        {/* Quick Navigation Buttons */}
+                        <div className="px-8 pt-4 border-t border-white/10">
+                            <h3 className="text-white/70 text-sm font-medium mb-3">
+                                {t('header.quickNav')}
+                            </h3>
+                            <div className="space-y-2">
+                                <NavButton
+                                    icon={<MapPin className="h-5 w-5" />}
+                                    label={t('header.map')}
+                                    delay={1}
+                                />
+                                <NavButton
+                                    icon={<ParkingSquare className="h-5 w-5" />}
+                                    label={t('header.parking')}
+                                    delay={2}
+                                />
+                                <NavButton
+                                    icon={<Search className="h-5 w-5" />}
+                                    label={t('header.search')}
+                                    delay={3}
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Social Links */}
-                    <div className="px-8 pt-6 mt-2 border-t border-white/10">
-                        <h3 className="text-white/70 text-sm font-medium mb-4">
-                            {t('menu.socialNetworks')}
-                        </h3>
-                        <div className="flex space-x-4">
-                            <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors">
-                                <span className="text-lg">IG</span>
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors">
-                                <span className="text-lg">FB</span>
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors">
-                                <span className="text-lg">TG</span>
-                            </a>
+                        {/* Social Links */}
+                        <div className="px-8 pt-4 mt-2 border-t border-white/10">
+                            <h3 className="text-white/70 text-sm font-medium mb-3">
+                                {t('menu.socialNetworks')}
+                            </h3>
+                            <div className="flex space-x-4">
+                                <a href="#" className="group">
+                                    <div className="bg-white/10 hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                                        <Instagram className="h-5 w-5 text-white" />
+                                    </div>
+                                </a>
+                                <a href="#" className="group">
+                                    <div className="bg-white/10 hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                                        <Facebook className="h-5 w-5 text-white" />
+                                    </div>
+                                </a>
+                                <a href="#" className="group">
+                                    <div className="bg-white/10 hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                                        <Send className="h-5 w-5 text-white" />
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Language Switcher */}
-                    <div className="px-8 py-6 mt-2 border-t border-white/10">
-                        <h3 className="text-white/70 text-sm font-medium mb-4">
-                            {t('header.language')}
-                        </h3>
-                        <div className="flex flex-wrap gap-2">
-                            <LanguageButton
-                                lang="en"
-                                label="English"
-                                flag="🇺🇸"
-                                active={i18n.language === 'en'}
-                                onClick={() => changeLanguage('en')}
-                            />
-                            <LanguageButton
-                                lang="ru"
-                                label="Русский"
-                                flag="🇷🇺"
-                                active={i18n.language === 'ru'}
-                                onClick={() => changeLanguage('ru')}
-                            />
-                            <LanguageButton
-                                lang="kk"
-                                label="Қазақша"
-                                flag="🇰🇿"
-                                active={i18n.language === 'kk'}
-                                onClick={() => changeLanguage('kk')}
-                            />
+                        {/* Language Switcher */}
+                        <div className="px-8 py-4 mt-2 border-t border-white/10">
+                            <h3 className="text-white/70 text-sm font-medium mb-4 flex items-center gap-2">
+                                <Globe className="h-4 w-4" />
+                                {t('header.language')}
+                            </h3>
+                            <LanguageSwitcherSidebar />
                         </div>
                     </div>
                 </div>

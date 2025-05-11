@@ -1,59 +1,91 @@
-import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const LanguageSwitcher = () => {
     const { i18n } = useTranslation();
-    const [isOpen, setIsOpen] = useState(false);
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
     const changeLanguage = (lng: string) => {
-        i18n.changeLanguage(lng);
-        setIsOpen(false);
+        if (lng === i18n.language || isTransitioning) return;
+
+        setIsTransitioning(true);
+        setTimeout(() => {
+            i18n.changeLanguage(lng);
+            setIsTransitioning(false);
+        }, 500);
+    };
+
+    // Calculate the position for the active indicator
+    const getIndicatorPosition = () => {
+        switch (i18n.language) {
+            case 'en': return '0%';
+            case 'ru': return '33.33%';
+            case 'kk': return '66.66%';
+            default: return '33.33%';
+        }
+    };
+
+    // Calculate text color based on current language
+    const getTextColor = (lang: string) => {
+        return i18n.language === lang ? 'text-white font-medium' : 'text-gray-300';
     };
 
     return (
         <div className="relative">
-            <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-                <DropdownMenuTrigger asChild>
-                    <Button
-                        variant="black"
-                        size="sm"
-                        className="font-semibold"
-                    >
-                        <span>
-                            {i18n.language === 'ru' ? 'RUS' :
-                                i18n.language === 'en' ? 'ENG' :
-                                    i18n.language === 'kk' ? 'KAZ' : 'RUS'}
-                        </span>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                    align="end"
-                    className="animate-in slide-in-from-top-1"
-                    sideOffset={8}
-                    avoidCollisions={false}
-                    forceMount
+            <div className="relative h-10 bg-gray-900 rounded-full flex items-center py-1 px-1 overflow-hidden shadow-md">
+                {/* Moving indicator background */}
+                <motion.div
+                    className="absolute top-1 bottom-1 w-[32%] bg-gradient-to-r from-blue-600 to-blue-500 rounded-full z-0"
+                    initial={false}
+                    animate={{
+                        left: getIndicatorPosition(),
+                    }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30
+                    }}
                 >
-                    <DropdownMenuItem onClick={() => changeLanguage('en')}
-                        className="cursor-pointer hover:bg-accent transition-colors">
-                        English
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => changeLanguage('ru')}
-                        className="cursor-pointer hover:bg-accent transition-colors">
-                        Русский
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => changeLanguage('kk')}
-                        className="cursor-pointer hover:bg-accent transition-colors">
-                        Қазақша
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+                    {/* The liquid drop effect */}
+                    <AnimatePresence>
+                        {isTransitioning && (
+                            <motion.div
+                                className="absolute -inset-1 bg-blue-600 rounded-full"
+                                initial={{ scale: 0.5 }}
+                                animate={{ scale: 1.2 }}
+                                exit={{ scale: 1 }}
+                                transition={{ duration: 0.3 }}
+                            />
+                        )}
+                    </AnimatePresence>
+                </motion.div>
+
+                {/* Language buttons */}
+                <motion.button
+                    onClick={() => changeLanguage('en')}
+                    className={`relative z-10 flex-1 px-3 py-1.5 text-center ${getTextColor('en')} hover:text-white transition-colors`}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    US
+                </motion.button>
+
+                <motion.button
+                    onClick={() => changeLanguage('ru')}
+                    className={`relative z-10 flex-1 px-3 py-1.5 text-center ${getTextColor('ru')} hover:text-white transition-colors`}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    RU
+                </motion.button>
+
+                <motion.button
+                    onClick={() => changeLanguage('kk')}
+                    className={`relative z-10 flex-1 px-3 py-1.5 text-center ${getTextColor('kk')} hover:text-white transition-colors`}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    KZ
+                </motion.button>
+            </div>
         </div>
     );
 };

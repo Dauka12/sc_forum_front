@@ -122,3 +122,41 @@
   transform: translateX(100%);
   transition: transform 300ms ease-in-out;
 }
+
+/* Custom scrollbar for sidebar */
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Prevent content shift when scrollbar appears/disappears */
+@layer utilities {
+  /* Add these at the end of your utilities section */
+  .overflow-y-scroll-always {
+    overflow-y: scroll !important;
+  }
+  
+  html {
+    scrollbar-gutter: stable;
+  }
+}

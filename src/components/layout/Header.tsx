@@ -33,7 +33,7 @@ const Header = () => {
     
     return (
         <header 
-            className={`sticky top-0 w-full backdrop-blur-md z-50 transition-all duration-300 ease-in-out
+            className={`fixed top-0 left-0 right-0 w-full backdrop-blur-md z-50 transition-all duration-300 ease-in-out
                 ${scrolled 
                     ? 'bg-white/90 border-b shadow-sm py-2' 
                     : 'bg-white/80 py-4'}
