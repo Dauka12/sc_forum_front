@@ -35,6 +35,12 @@
         "promotionsAndDiscounts": "Promotions and discounts",
         "loyaltyProgram": "Loyalty program",
         "temporarilyClosed": "Temporarily closed",
+        "featured": {
+            "fashion": "Fashion Store",
+            "tech": "Tech World",
+            "homeDesign": "Home & Design",
+            "sports": "Sports Hub"
+        },
         "categories": {
             "auto": "Auto",
             "accessories": "Accessories",
@@ -55,5 +61,50 @@
         "floor2": "2nd Floor",
         "floor3": "3rd Floor",
         "new": "New"
+    },
+    "home": {
+        "hero": {
+            "subtitle": "Shopping and entertainment center for the whole family"
+        },
+        "scrollDown": "Scroll Down",
+        "shops": {
+            "title": "Stores",
+            "description": "Discover a world of shopping with over 150 stores under one roof"
+        },
+        "promotions": {
+            "title": "News & Promotions",
+            "description": "Stay updated with the latest promotions and events in our shopping center"
+        },
+        "services": {
+            "title": "Services",
+            "description": "All services and amenities for your comfortable shopping experience"
+        },
+        "howToGet": {
+            "title": "How to Get Here",
+            "description": "Conveniently located in the city center",
+            "parkingInfo": "Free parking for 1000+ cars"
+        },
+        "cta": {
+            "title": "Discover FORUM",
+            "description": "The best shopping, entertainment and gastronomy await you in our shopping center",
+            "button": "Visit Today"
+        }
+    },
+    "promotions": {
+        "summerSale": {
+            "title": "Summer Sale",
+            "description": "30% off on all summer collections!",
+            "period": "July 1 - August 15"
+        },
+        "blackFriday": {
+            "title": "Black Friday",
+            "description": "Massive discounts across all stores",
+            "period": "November 24 - 26"
+        },
+        "newStore": {
+            "title": "New Store Opening",
+            "description": "Grand opening of our newest fashion boutique",
+            "period": "September 5"
+        }
     }
 }
