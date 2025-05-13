@@ -158,59 +158,6 @@ const LanguageSwitcherSidebar = () => {
 const MenuSidebar = () => {
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = React.useState(false);
-    // Store the scroll position in a ref so it persists between renders
-    const scrollPositionRef = React.useRef(0);
-
-    // Effect to handle body scroll locking
-    React.useEffect(() => {
-        if (isOpen) {
-            // Store the current scroll position and lock body scroll
-            scrollPositionRef.current = window.scrollY;
-            
-            // Calculate scrollbar width by comparing window inner width and document.documentElement.clientWidth
-            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-            
-            // Save the current padding
-            const currentPaddingRight = parseInt(getComputedStyle(document.body).paddingRight, 10) || 0;
-            
-            // Apply styles to lock scroll but maintain page width
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollPositionRef.current}px`;
-            document.body.style.left = '0';
-            document.body.style.right = '0';
-            document.body.style.width = '100%';
-            document.body.style.paddingRight = `${currentPaddingRight + scrollbarWidth}px`;
-            document.body.style.overflow = 'hidden';
-        } else {
-            // Reset all styles
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.left = '';
-            document.body.style.right = '';
-            document.body.style.width = '';
-            document.body.style.paddingRight = '';
-            document.body.style.overflow = '';
-
-            // Restore scroll position when drawer closes
-            if (scrollPositionRef.current > 0) {
-                window.scrollTo({
-                    top: scrollPositionRef.current,
-                    behavior: 'instant' // This ensures immediate restoration without animation
-                });
-            }
-        }
-
-        return () => {
-            // Cleanup function - make sure to reset all styles
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.left = '';
-            document.body.style.right = '';
-            document.body.style.width = '';
-            document.body.style.paddingRight = '';
-            document.body.style.overflow = '';
-        };
-    }, [isOpen]);
 
     const menuItems: MenuItem[] = [
         { to: "/stores", label: t('menu.shops'), delay: 2 },

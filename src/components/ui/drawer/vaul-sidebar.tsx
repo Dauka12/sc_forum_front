@@ -80,6 +80,9 @@ export function SidebarDrawer({
                     direction={direction === 'right' ? 'right' : 'left'}
                     onOpenChange={setOpen}
                     dismissible={isDesktop ? false : true}
+                    // Правильная настройка блокировки прокрутки
+                    shouldScaleBackground={false}
+                    modal={true}
                 >
                     <VaulSidebar.Portal>
                         <VaulSidebar.Overlay
