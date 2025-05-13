@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 const LanguageSwitcher = () => {
     const { i18n } = useTranslation();
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     const changeLanguage = (lng: string) => {
         if (lng === i18n.language || isTransitioning) return;
@@ -28,15 +29,34 @@ const LanguageSwitcher = () => {
 
     // Calculate text color based on current language
     const getTextColor = (lang: string) => {
-        return i18n.language === lang ? 'text-white font-medium' : 'text-gray-300';
+        return i18n.language === lang 
+            ? 'text-white font-medium bg-blue-700' 
+            : 'text-gray-700 hover:bg-gray-200/50';
+    };
+
+    // Calculate button styles for active/inactive states
+    const getButtonStyles = (lang: string) => {
+        return i18n.language === lang
+            ? 'font-medium'
+            : '';
     };
 
     return (
-        <div className="relative">
-            <div className="relative h-10 bg-gray-900 rounded-full flex items-center py-1 px-1 overflow-hidden shadow-md">
+        <div className="relative"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}>
+            <motion.div 
+                className="relative rounded-full flex items-center py-0.5 px-0.5 overflow-hidden shadow-sm border border-gray-100 bg-white"
+                animate={{ 
+                    boxShadow: isHovered 
+                        ? '0 4px 12px rgba(0, 0, 0, 0.15)' 
+                        : '0 1px 3px rgba(0, 0, 0, 0.1)'
+                }}
+                transition={{ duration: 0.2 }}
+            >
                 {/* Moving indicator background */}
                 <motion.div
-                    className="absolute top-1 bottom-1 w-[32%] bg-gradient-to-r from-blue-600 to-blue-500 rounded-full z-0"
+                    className="absolute top-0.5 bottom-0.5 w-1/3 bg-blue-700 rounded-full z-0"
                     initial={false}
                     animate={{
                         left: getIndicatorPosition(),
@@ -64,28 +84,28 @@ const LanguageSwitcher = () => {
                 {/* Language buttons */}
                 <motion.button
                     onClick={() => changeLanguage('en')}
-                    className={`relative z-10 flex-1 px-3 py-1.5 text-center ${getTextColor('en')} hover:text-white transition-colors`}
+                    className={`relative z-10 flex-1 px-1 py-1 text-sm text-center transition-all rounded-full ${getTextColor('en')}`}
                     whileTap={{ scale: 0.95 }}
                 >
-                    US
+                    <span className={`${getButtonStyles('en')}`}>US</span>
                 </motion.button>
 
                 <motion.button
                     onClick={() => changeLanguage('ru')}
-                    className={`relative z-10 flex-1 px-3 py-1.5 text-center ${getTextColor('ru')} hover:text-white transition-colors`}
+                    className={`relative z-10 flex-1 px-1 py-1 text-sm text-center transition-all rounded-full ${getTextColor('ru')}`}
                     whileTap={{ scale: 0.95 }}
                 >
-                    RU
+                    <span className={`${getButtonStyles('ru')}`}>RU</span>
                 </motion.button>
 
                 <motion.button
                     onClick={() => changeLanguage('kk')}
-                    className={`relative z-10 flex-1 px-3 py-1.5 text-center ${getTextColor('kk')} hover:text-white transition-colors`}
+                    className={`relative z-10 flex-1 px-1 py-1 text-sm text-center transition-all rounded-full ${getTextColor('kk')}`}
                     whileTap={{ scale: 0.95 }}
                 >
-                    KZ
+                    <span className={`${getButtonStyles('kk')}`}>KZ</span>
                 </motion.button>
-            </div>
+            </motion.div>
         </div>
     );
 };

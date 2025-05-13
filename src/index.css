@@ -187,3 +187,26 @@ html.vaul-drawer-active {
   touch-action: none;
   -ms-touch-action: none;
 }
+
+/* Дополнительные стили для анимаций */
+.animate-fadeIn {
+  animation-name: fadeIn;
+  animation-duration: 0.4s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Стили специально для заголовков в сайдбаре */
+.sidebar-heading {
+  color: white !important;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}

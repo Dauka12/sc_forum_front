@@ -21,15 +21,16 @@ const MenuItem = ({ to, label, delay = 0 }: MenuItem) => {
         }, 100 + delay * 50);
 
         return () => clearTimeout(timer);
-    }, [delay]);
-
-    return (
+    }, [delay]);    return (
         <Link
             to={to}
-            className={`text-xl font-medium text-white hover:text-white/80 hover:translate-x-1 block transform transition-all duration-300 ease-in-out ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
+            className={`text-xl font-medium text-white/90 hover:text-white hover:translate-x-1 block transform transition-all duration-300 ease-in-out ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                 }`}
         >
-            {label}
+            <div className="flex items-center gap-2">
+                <div className="w-1 h-1 rounded-full bg-blue-500/60"></div>
+                {label}
+            </div>
         </Link>
     );
 };
@@ -70,6 +71,7 @@ const NavButton = ({ icon, label, onClick, delay = 0 }: { icon: React.ReactNode,
 const LanguageSwitcherSidebar = () => {
     const { i18n } = useTranslation();
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     const changeLanguage = (lng: string) => {
         if (lng === i18n.language || isTransitioning) return;
@@ -93,15 +95,34 @@ const LanguageSwitcherSidebar = () => {
 
     // Calculate text color based on current language
     const getTextColor = (lang: string) => {
-        return i18n.language === lang ? 'text-white font-medium' : 'text-gray-400';
+        return i18n.language === lang 
+            ? 'text-white font-medium bg-blue-700' 
+            : 'text-white/80 hover:text-white hover:bg-white/10';
+    };
+
+    // Calculate button styles
+    const getButtonStyles = (lang: string) => {
+        return i18n.language === lang 
+            ? 'font-medium' 
+            : '';
     };
 
     return (
-        <div className="relative w-full">
-            <div className="relative h-14 bg-gray-800/80 rounded-full flex items-center py-2 px-2 overflow-hidden shadow-inner">
+        <div className="relative w-full"
+            onMouseEnter={() => setIsHovered(true)} 
+            onMouseLeave={() => setIsHovered(false)}>
+            <motion.div 
+                className="relative rounded-full flex items-center py-1 px-1 overflow-hidden border border-white/10 bg-gray-800/60"
+                animate={{
+                    boxShadow: isHovered 
+                        ? '0 4px 12px rgba(0, 0, 0, 0.25)' 
+                        : '0 2px 5px rgba(0, 0, 0, 0.15)'
+                }}
+                transition={{ duration: 0.2 }}
+            >
                 {/* Moving indicator background */}
                 <motion.div
-                    className="absolute top-2 bottom-2 w-[32%] bg-gradient-to-r from-blue-700 to-blue-600 rounded-full z-0"
+                    className="absolute top-1 bottom-1 w-1/3 bg-blue-700 rounded-full z-0"
                     initial={false}
                     animate={{
                         left: getIndicatorPosition(),
@@ -116,7 +137,7 @@ const LanguageSwitcherSidebar = () => {
                     <AnimatePresence>
                         {isTransitioning && (
                             <motion.div
-                                className="absolute -inset-1 bg-blue-700 rounded-full"
+                                className="absolute -inset-1 bg-blue-600 rounded-full"
                                 initial={{ scale: 0.5 }}
                                 animate={{ scale: 1.2 }}
                                 exit={{ scale: 1 }}
@@ -129,28 +150,28 @@ const LanguageSwitcherSidebar = () => {
                 {/* Language buttons */}
                 <motion.button
                     onClick={() => changeLanguage('en')}
-                    className={`relative z-10 flex-1 px-3 py-2 text-center ${getTextColor('en')} hover:text-white transition-colors text-base`}
+                    className={`relative z-10 flex-1 px-2 py-2 text-center transition-all rounded-full ${getTextColor('en')}`}
                     whileTap={{ scale: 0.95 }}
                 >
-                    US
+                    <span className={`${getButtonStyles('en')}`}>US</span>
                 </motion.button>
 
                 <motion.button
                     onClick={() => changeLanguage('ru')}
-                    className={`relative z-10 flex-1 px-3 py-2 text-center ${getTextColor('ru')} hover:text-white transition-colors text-base`}
+                    className={`relative z-10 flex-1 px-2 py-2 text-center transition-all rounded-full ${getTextColor('ru')}`}
                     whileTap={{ scale: 0.95 }}
                 >
-                    RU
+                    <span className={`${getButtonStyles('ru')}`}>RU</span>
                 </motion.button>
 
                 <motion.button
                     onClick={() => changeLanguage('kk')}
-                    className={`relative z-10 flex-1 px-3 py-2 text-center ${getTextColor('kk')} hover:text-white transition-colors text-base`}
+                    className={`relative z-10 flex-1 px-2 py-2 text-center transition-all rounded-full ${getTextColor('kk')}`}
                     whileTap={{ scale: 0.95 }}
                 >
-                    KZ
+                    <span className={`${getButtonStyles('kk')}`}>KZ</span>
                 </motion.button>
-            </div>
+            </motion.div>
         </div>
     );
 };
@@ -169,13 +190,12 @@ const MenuSidebar = () => {
         { to: "/", label: t('menu.contacts'), delay: 8 },
     ];
 
-    return (
-        <SidebarDrawer
+    return (        <SidebarDrawer
             open={isOpen}
             setOpen={setIsOpen}
             direction="left"
             outsideClose={true}
-            className="bg-gradient-to-br from-black to-gray-800"
+            className="bg-gradient-to-br from-black to-gray-800 text-white"
             DefaultTrigger={() => (
                 <Button
                     variant="black"
@@ -186,20 +206,29 @@ const MenuSidebar = () => {
                     <span className="hidden sm:inline">{t('header.menu')}</span>
                 </Button>
             )}
-        >
-            <DrawerContent>
-                <div className="flex flex-col h-full text-white">
-                    {/* Header */}
-                    <div className="px-8 py-4 flex-shrink-0">
-                        <h2 className="text-2xl font-bold text-white opacity-0 animate-fadeIn"
-                            style={{ animationDelay: '0.1s', animationFillMode: 'forwards' }}>
-                            {t('header.menu')}
+        >            <DrawerContent>                <div className="flex flex-col h-full text-white">                    {/* Header */}                    <div className="px-8 py-4 flex-shrink-0 border-b border-white/20 mb-2">
+                        <h2 className="text-2xl font-bold text-white sidebar-heading relative pb-2" 
+                            style={{ 
+                                textShadow: '0 0 8px rgba(59, 130, 246, 0.5)'
+                            }}>
+                            <span className="animate-fadeIn"
+                                style={{ 
+                                    animationDelay: '0.1s', 
+                                    animationFillMode: 'forwards',
+                                    opacity: 0 
+                                }}>
+                                {t('header.menu')}
+                            </span>
+                            <div className="absolute bottom-0 left-0 w-16 h-[2px] bg-gradient-to-r from-blue-700 to-transparent animate-fadeIn"
+                                style={{
+                                    animationDelay: '0.3s',
+                                    animationFillMode: 'forwards',
+                                    opacity: 0
+                                }}></div>
                         </h2>
-                    </div>
-
-                    {/* Main Navigation Menu - Scrollable */}
+                    </div>                    {/* Main Navigation Menu - Scrollable */}
                     <div className="px-8 overflow-y-auto flex-grow custom-scrollbar">
-                        <div className="space-y-4 pb-4">
+                        <div className="space-y-4 pb-4 pl-1">
                             {menuItems.map((item, index) => (
                                 <MenuItem key={index} to={item.to} label={item.label} delay={item.delay} />
                             ))}
@@ -207,10 +236,10 @@ const MenuSidebar = () => {
                     </div>
 
                     {/* Fixed bottom section that's always visible */}
-                    <div className="flex-shrink-0 mt-auto">
-                        {/* Quick Navigation Buttons */}
+                    <div className="flex-shrink-0 mt-auto">                        {/* Quick Navigation Buttons */}
                         <div className="px-8 pt-4 border-t border-white/10">
-                            <h3 className="text-white/70 text-sm font-medium mb-3">
+                            <h3 className="text-white/70 text-sm font-medium mb-3 flex items-center">
+                                <span className="w-3 h-[2px] bg-blue-500/60 mr-2"></span>
                                 {t('header.quickNav')}
                             </h3>
                             <div className="space-y-2">
@@ -230,11 +259,10 @@ const MenuSidebar = () => {
                                     delay={3}
                                 />
                             </div>
-                        </div>
-
-                        {/* Social Links */}
+                        </div>                        {/* Social Links */}
                         <div className="px-8 pt-4 mt-2 border-t border-white/10">
-                            <h3 className="text-white/70 text-sm font-medium mb-3">
+                            <h3 className="text-white/70 text-sm font-medium mb-3 flex items-center">
+                                <span className="w-3 h-[2px] bg-blue-500/60 mr-2"></span>
                                 {t('menu.socialNetworks')}
                             </h3>
                             <div className="flex space-x-4">
@@ -254,11 +282,10 @@ const MenuSidebar = () => {
                                     </div>
                                 </a>
                             </div>
-                        </div>
-
-                        {/* Language Switcher */}
+                        </div>                        {/* Language Switcher */}
                         <div className="px-8 py-4 mt-2 border-t border-white/10">
                             <h3 className="text-white/70 text-sm font-medium mb-4 flex items-center gap-2">
+                                <span className="w-3 h-[2px] bg-blue-500/60"></span>
                                 <Globe className="h-4 w-4" />
                                 {t('header.language')}
                             </h3>

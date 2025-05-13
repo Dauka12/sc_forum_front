@@ -95,9 +95,10 @@ export function SidebarDrawer({
                                     ? 'sm:w-[350px] w-[85%] h-[100%]'
                                     : 'w-full h-[100%]'
                                 } fixed bottom-0 ${direction === 'right' ? 'right-0' : 'left-0'
-                                } transition-transform duration-300`,
+                                } transition-transform duration-300 border-none outline-none text-white`,
                                 className || 'dark:bg-black/95 bg-black/95 backdrop-blur-md'
                             )}
+                            onOpenAutoFocus={(e) => e.preventDefault()}
                         >
                             <div className="w-full h-full">
                                 {isDesktop ? (
